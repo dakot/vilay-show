@@ -48,6 +48,7 @@ def main(**extra_args):
           # please maintain alphanumeric order
           packages     = [ 'vilay',
                            'vilay.qt_ui',
+                           'vilay.cmdline',
                            ],
           package_data = {
               'vilay': ['icons/*']
