@@ -18,11 +18,6 @@ import timeseries
 import utils
 import player
 
-import user_data
-
-PATH_MOVIE = user_data.PATH_MOVIE # e.g. '/home/movie.m4v' 
-PATH_GAZES = user_data.PATH_GAZES # e.g. ['gaze1.npy',gaze2.npy], format: time, x, y, pupil , use indy_utils.py
-
 GAZE_DISP_EACH = 0
 GAZE_DISP_MEAN = 0
 GAZE_DISP_CLUSTERED = 0
