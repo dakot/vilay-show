@@ -1,7 +1,11 @@
 import code
 import sys
 
+from datetime import datetime
+
 import numpy as np
+
+from PyQt4 import QtCore, QtGui
 
 import cv
 import cv2
@@ -240,7 +244,7 @@ def getMeanWithVariance(gaze_coords):
 def getGazeMovieCoords(gazes, stimulus, nPast, justTakeMean):
 	gaze_coords = []
 	for gaze_id in range(len(gazes)):
-		gaze_frame_id_init = int(stimulus.fps*(-gazes[gaze_id][0][0] + stimulus.act_time + offset))
+		gaze_frame_id_init = int(stimulus.fps*(-gazes[gaze_id][0][0] + stimulus.act_pos + offset))
 		
 		mean_coord = np.array([0,0,0])
 		for i in range(nPast+1):
@@ -266,3 +270,28 @@ def getGazeMovieCoords(gazes, stimulus, nPast, justTakeMean):
 			gaze_coords.append(np.array([gaze_id, int(mean_coord[0]/mean_coord[2]), int(mean_coord[1]/mean_coord[2]), 1]))
 
 	return np.array(gaze_coords)
+
+	
+def np2qpixmap(im):
+    h, w, channels = im.shape
+    im = cv2.cvtColor(im, cv.CV_BGR2BGRA)
+
+    # Qt expects 32bit BGRA data for color images:    
+    qimg = QtGui.QImage(im.data, w, h, QtGui.QImage.Format_RGB32)
+    qimg.ndarray = im
+    
+    scene = QtGui.QGraphicsScene()
+    scene.addPixmap(QtGui.QPixmap(qimg))
+    
+    return scene
+    
+def sec2time(secs):
+    int_t = int(secs)
+    ms = secs - int_t
+    tstr = datetime.fromtimestamp(-3600 + int_t).strftime('%H:%M:%S')
+    return tstr + '.%.3i' % (ms * 1000)
+    
+    #h = int(time/3600)
+    #m = int(time%3600)/60
+    #s = time%60
+    #return '%(h).0f:%(m)2.f:%(s)2.3f' %{'h': h, 'm': m, 's': s}
