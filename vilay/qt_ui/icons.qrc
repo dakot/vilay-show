@@ -1,0 +1,18 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/autostop.png</file>
+    <file>icons/backward.png</file>
+    <file>icons/down.png</file>
+    <file>icons/forward.png</file>
+    <file>icons/left.png</file>
+    <file>icons/load.png</file>
+    <file>icons/next.png</file>
+    <file>icons/next2.png</file>
+    <file>icons/pause.png</file>
+    <file>icons/previous.png</file>
+    <file>icons/previous2.png</file>
+    <file>icons/right.png</file>
+    <file>icons/stop.png</file>
+    <file>icons/up.png</file>
+  </qresource>
+</RCC>

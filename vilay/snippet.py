@@ -1,6 +1,6 @@
 import time
 
-class Sequence:
+class Snippet:
     """Sequences are intervalls (tupel of begin and duration) that describe 
     a specific part of an stimulus, e.g. a scene in a movie. Sequences can 
     be labeled by a string"""

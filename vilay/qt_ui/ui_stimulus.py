@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_stimulus.ui'
 #
-# Created: Thu Nov  8 13:17:06 2012
+# Created: Mon Nov 19 15:51:04 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,9 +38,9 @@ class Ui_Stimulus(object):
         self.line.setFrameShadow(QtGui.QFrame.Sunken)
         self.line.setObjectName(_fromUtf8("line"))
         self.horizontalLayout.addWidget(self.line)
-        self.stim_seq = QtGui.QLabel(self.frame)
-        self.stim_seq.setObjectName(_fromUtf8("stim_seq"))
-        self.horizontalLayout.addWidget(self.stim_seq)
+        self.stim_snip = QtGui.QLabel(self.frame)
+        self.stim_snip.setObjectName(_fromUtf8("stim_snip"))
+        self.horizontalLayout.addWidget(self.stim_snip)
         self.line_2 = QtGui.QFrame(self.frame)
         self.line_2.setFrameShape(QtGui.QFrame.VLine)
         self.line_2.setFrameShadow(QtGui.QFrame.Sunken)
@@ -57,6 +57,6 @@ class Ui_Stimulus(object):
     def retranslateUi(self, Stimulus):
         Stimulus.setWindowTitle(QtGui.QApplication.translate("Stimulus", "Stimulus", None, QtGui.QApplication.UnicodeUTF8))
         self.stim_pos.setText(QtGui.QApplication.translate("Stimulus", "0:00:00:0 / 0:00:00:0", None, QtGui.QApplication.UnicodeUTF8))
-        self.stim_seq.setText(QtGui.QApplication.translate("Stimulus", "no sequences loaded", None, QtGui.QApplication.UnicodeUTF8))
+        self.stim_snip.setText(QtGui.QApplication.translate("Stimulus", "no snippets loaded", None, QtGui.QApplication.UnicodeUTF8))
         self.stim_debug.setText(QtGui.QApplication.translate("Stimulus", "skipped: 0", None, QtGui.QApplication.UnicodeUTF8))
 

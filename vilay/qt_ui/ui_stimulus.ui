@@ -53,9 +53,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="stim_seq">
+       <widget class="QLabel" name="stim_snip">
         <property name="text">
-         <string>no sequences loaded</string>
+         <string>no snippets loaded</string>
         </property>
        </widget>
       </item>

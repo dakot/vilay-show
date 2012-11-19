@@ -21,9 +21,27 @@ parser_args = dict(formatter_class=argparse.RawDescriptionHelpFormatter)
 
 def setup_parser(parser):
     # ADD ME
-    #parser.add_argument('specs', nargs=2, metavar='SPEC',
-    #        help="SPEC name/identifier")
-    pass
+    parser.add_argument('mediafile', help="SPEC name/identifier")
+    parser.add_argument('--gazes', action='append', help="SPEC name/identifier")
+    parser.add_argument('--show_gazes_each', type=float, choices=[0,1], help="float value of opacity of each gaze overlay")
+    parser.add_argument('--show_gazes_clustered', type=float, choices=[0,1], help="float value of opacity of clustered gaze overlay")
 
 def run(args):
     print args
+    from vilay.stimulus import Stimulus
+    from vilay.player import Player
+    from vilay.gazes import Gazes
+    import sys
+    
+    stim=Stimulus(args.mediafile)
+    
+    player = Player(stim)
+    player.gazes = Gazes(args.gazes)
+    
+    """if args.show_gazes_each is not None:
+        player.set_show_gaze_each(args.show_gazes_each)
+    
+    if args.show_gazes_clustered is not None:
+        player.set_show_gaze_clustered(args.show_gazes_clustered)
+    """
+    sys.exit(player.app.exec_())

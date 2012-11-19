@@ -54,13 +54,13 @@
        <number>5</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="rightMargin">
        <number>5</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>2</number>
       </property>
       <item>
        <widget class="QFrame" name="gridFrame">
@@ -71,6 +71,9 @@
          </sizepolicy>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <property name="margin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QToolButton" name="play">
            <property name="minimumSize">
@@ -89,11 +92,11 @@
             <string>Play</string>
            </property>
            <property name="text">
-            <string>...</string>
+            <string/>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>../../../../../.designer/icons/right.png</normaloff>../../../../../.designer/icons/right.png</iconset>
+            <iconset resource="icons.qrc">
+             <normaloff>:/icons/icons/right.png</normaloff>:/icons/icons/right.png</iconset>
            </property>
           </widget>
          </item>
@@ -112,8 +115,8 @@
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>../../../../../.designer/icons/pause.png</normaloff>../../../../../.designer/icons/pause.png</iconset>
+            <iconset resource="icons.qrc">
+             <normaloff>:/icons/icons/pause.png</normaloff>:/icons/icons/pause.png</iconset>
            </property>
           </widget>
          </item>
@@ -132,8 +135,8 @@
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>../../../../../.designer/icons/stop.png</normaloff>../../../../../.designer/icons/stop.png</iconset>
+            <iconset resource="icons.qrc">
+             <normaloff>:/icons/icons/stop.png</normaloff>:/icons/icons/stop.png</iconset>
            </property>
           </widget>
          </item>
@@ -153,14 +156,14 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>1 Second back</string>
+            <string>4 seconds back</string>
            </property>
            <property name="text">
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>../../../../../.designer/icons/backward.png</normaloff>../../../../../.designer/icons/backward.png</iconset>
+            <iconset resource="icons.qrc">
+             <normaloff>:/icons/icons/backward.png</normaloff>:/icons/icons/backward.png</iconset>
            </property>
           </widget>
          </item>
@@ -173,14 +176,44 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>1 Second forward</string>
+            <string>4 seconds forward</string>
            </property>
            <property name="text">
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>../../../../../.designer/icons/forward.png</normaloff>../../../../../.designer/icons/forward.png</iconset>
+            <iconset resource="icons.qrc">
+             <normaloff>:/icons/icons/forward.png</normaloff>:/icons/icons/forward.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="snip_stop">
+           <property name="minimumSize">
+            <size>
+             <width>22</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Stop after every snippet</string>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="icons.qrc">
+             <normaloff>:/icons/icons/autostop.png</normaloff>:/icons/icons/autostop.png</iconset>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -228,7 +261,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QToolButton" name="seq_pre">
+          <widget class="QToolButton" name="snip_pre">
            <property name="minimumSize">
             <size>
              <width>22</width>
@@ -236,19 +269,19 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Play sequence before</string>
+            <string>Play previous snippet</string>
            </property>
            <property name="text">
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>../../../../../.designer/icons/previous.png</normaloff>../../../../../.designer/icons/previous.png</iconset>
+            <iconset resource="icons.qrc">
+             <normaloff>:/icons/icons/previous.png</normaloff>:/icons/icons/previous.png</iconset>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="seq_box">
+          <widget class="QComboBox" name="snip_box">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -262,12 +295,12 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Select sequence</string>
+            <string>Select snippet</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="seq_next">
+          <widget class="QToolButton" name="snip_next">
            <property name="minimumSize">
             <size>
              <width>22</width>
@@ -275,14 +308,14 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Play sequence after</string>
+            <string>Play next snippet</string>
            </property>
            <property name="text">
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>../../../../../.designer/icons/next.png</normaloff>../../../../../.designer/icons/next.png</iconset>
+            <iconset resource="icons.qrc">
+             <normaloff>:/icons/icons/next.png</normaloff>:/icons/icons/next.png</iconset>
            </property>
           </widget>
          </item>
@@ -342,7 +375,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="seq_overview">
+       <widget class="QLabel" name="snip_overview">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -512,6 +545,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

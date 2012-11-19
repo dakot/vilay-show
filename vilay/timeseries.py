@@ -1,6 +1,6 @@
 import numpy as np
 
-import sequence
+import snippet
 
 class TimeSeries:
     """A time series is a time-ordered vector of (time, value)-vectors. Time is
@@ -38,10 +38,10 @@ class TimeSeries:
         
         return dist
     
-    def get_sequences(self, offset = 0, function = None ):
-        """returns a list of sequences where function returns true if calculated 
+    def get_snippets(self, offset = 0, function = None ):
+        """returns a list of snippets where function returns true if calculated 
         with time series values"""
-        seq = []
+        snippets = []
         if self.approx == "none":
             last_val = False
             begin = 0
@@ -56,11 +56,11 @@ class TimeSeries:
                         begin = i
                     else:
                         end = i
-                        seq.append(sequence.Sequence(min(max(0,begin+offset),self.data[len(self.data)-1,0]), end-begin, self.label))
+                        snippets.append(snippet.Snippet(min(max(0,begin+offset),self.data[len(self.data)-1,0]), end-begin, self.label))
                 last_val = act_val
         
-        return seq
+        return snippets
 
-# TODO delete (helper function for testing get_sequences)
+# TODO delete (helper function for testing get_snippets)
 def greater_zero(a):
     return a>0
