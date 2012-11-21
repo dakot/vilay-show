@@ -24,6 +24,8 @@ endif
 clean:
 	rm -rf build
 	rm -f MANIFEST
+	for ui in $$(ls vilay/qt_ui/*.ui); do rm -f $${ui%*.ui}.py; done
+	for rc in $$(ls vilay/qt_ui/*.qrc); do rm -f $${rc%*.qrc}_rc.py; done
 
 manpages: mkdir-MAN_DIR
 	@echo "I: Creating manpages"
