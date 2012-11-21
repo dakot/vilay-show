@@ -18,13 +18,8 @@ How to use
 
 
 
-PyQt usability
------------------
-To compile Qt files (.ui) run:
-  pyuic4 ui_control.ui > ui_control.py
-  pyuic4 ui_stimulus.ui > ui_stimulus.py
+Requirements
+------------
 
-To compile Qt ressource files run:
-  pyrcc4 icons.qrc > icons_rc.py
-
-
+* OpenCV (incl. Python-bindings)
+* PyQt
