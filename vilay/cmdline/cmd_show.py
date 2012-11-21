@@ -10,6 +10,8 @@
 
 """
 
+import logging
+lgr = logging.getLogger(__name__)
 import argparse
 
 __docformat__ = 'restructuredtext'
@@ -55,6 +57,7 @@ def run(args):
     player = Player(stim)
     
     if not args.gazes is None:
+        lgr.debug("gaze display enabled")
         player.gazes = Gazes(args.gazes)
     
         if not args.stim_fov is None:
@@ -67,6 +70,7 @@ def run(args):
             player.set_show_gaze_clustered(args.show_gazes_clustered)
     
     if not args.play_snippet is None:
+        lgr.debug("limit playback to snippets")
         for i,snippet in enumerate(args.play_snippet):
             player.snippets.append(Snippet(snippet[0], snippet[1], "cmd-no-%i" % i))
         player.load_snippet(1) 
