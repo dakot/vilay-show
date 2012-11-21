@@ -51,7 +51,7 @@ def main(**extra_args):
                            'vilay.cmdline',
                            ],
           package_data = {
-              'vilay': ['icons/*']
+              'vilay': ['icons/*', 'vilay.cfg']
             },
           scripts      = glob(os.path.join('bin', '*'))
           )
