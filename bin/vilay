@@ -148,5 +148,6 @@ try:
 except Exception as exc:
     logging.error('%s (%s)' % (str(exc), exc.__class__.__name__))
     if args.common_debug:
-        raise
+        import pdb
+        pdb.post_mortem()
     sys.exit(1)

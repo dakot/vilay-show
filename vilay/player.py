@@ -135,7 +135,10 @@ class Player:
         
         """ when snippet is over, stop scheduler through deleting next schedule element """
         if not self.snippets[self.snippet_id].contains(self.stimulus.act_pos):
-            self.play_snippet(self.snippet_id + 1)
+            if self.snippet_id + 1 >= len(self.snippets):
+                self.play_snippet(1)
+            else:
+                self.play_snippet(self.snippet_id + 1)
             if self.stop_after:
                 self.qscheduler.stop()
             return

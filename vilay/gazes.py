@@ -26,7 +26,7 @@ offset = 0
 
 class Gazes:
     
-    def __init__(self, stimulus, gaze_files):
+    def __init__(self, gaze_files):
         self.paths = gaze_files
         
         if len(self.paths) == 0:

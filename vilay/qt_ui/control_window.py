@@ -3,8 +3,7 @@ from ui_control import Ui_Control
 
 import cv2
 import numpy as np
-import utils
-import snippet
+from vilay import (utils, snippet)
 
 class ControlWindow(QtGui.QWidget):
     def __init__(self, player, parent=None):
