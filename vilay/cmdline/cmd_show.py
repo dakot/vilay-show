@@ -13,6 +13,7 @@
 import logging
 lgr = logging.getLogger(__name__)
 import argparse
+from vilay import cfg
 
 __docformat__ = 'restructuredtext'
 
@@ -33,8 +34,10 @@ def setup_parser(parser):
     
     gaze_group = parser.add_argument_group('gazes')
     gaze_group.add_argument('--gazes', nargs='+', help="filenames of gaze files")
-    gaze_group.add_argument('--fov', '--stimulus-field-of-view', dest='stim_fov', nargs=4, type=int,
-        help="specifies where the movie was set in gaze data: 'width' 'height' 'x_offset' 'y_offset'")
+    gaze_group.add_argument('--fov', '--stimulus-field-of-view', dest='stim_fov', nargs=4, type=int, 
+        help="specifies where the movie was set in gaze data: 'width' 'height' 'x_offset' 'y_offset'",
+        default=[float(i) for i in cfg.get('video', 'field of view', default='').split()])
+    
     gaze_group.add_argument('--show-gazes-each', type=float_zero_one, help="float value of opacity of each gaze overlay")
     gaze_group.add_argument('--show-gazes-clustered', type=float_zero_one, help="float value of opacity of clustered gaze overlay", default=1)
     gaze_group.add_argument('--show-aperture', type=bool, help="set 'true' to show aperture")
@@ -74,10 +77,11 @@ def run(args):
         
     
     if not args.gazes is None:
-        lgr.debug("gaze display enabled")
+        lgr.debug("gaze display enabled (reading from %s)" % args.gazes)
         player.gazes = Gazes(args.gazes)
-        
-        if not args.stim_fov is None:
+
+        if len(args.stim_fov) == 4:
+            lgr.debug("set video field of view to %s" % args.stim_fov)
             player.gazes.calibration(*args.stim_fov)
         else:
             print "WARNING: gazes maybe not calibrated"
