@@ -1,6 +1,7 @@
 import cv
 import cv2
 
+import time
 import utils
 
 class Stimulus:
@@ -75,19 +76,20 @@ class Stimulus:
         
         return True
     
-    def resync(self, expected_pos):
+    def resync(self):
         """This function resynchronizes the stimulus to the expected position. The difference between
         resync and set_pos is that resync just requests a small number of frames that are infront of
         the actual stimulus position (to jump over them) and set_pos sets a completely new position 
         (and is slower). Resync also returns the number of skipped frames."""
         
         skip_frames = 0
-        expected_pos -= 1./self.fps
-        if self.act_pos < expected_pos:
-            delta = expected_pos - self.act_pos
-            skip_frames = int(delta*self.fps)+1
+        expected_pos = self.start_pos + (time.time()-self.start_time)*self.speed
+        delta = expected_pos - self.act_pos
+        
+        if delta > 1./self.fps:
+            skip_frames = int(delta*self.fps)
             for i in range(skip_frames):
                 self.data.grab()
         
-        self.act_pos = self.data.get(cv.CV_CAP_PROP_POS_MSEC)/1000
+            self.act_pos = self.data.get(cv.CV_CAP_PROP_POS_MSEC)/1000
         return skip_frames

@@ -1,6 +1,34 @@
+import cv2
+
 import numpy as np
 
+from PyQt4 import QtGui, QtCore
+from qt_ui.ui_timeseries import Ui_Timeseries
+
+from PyQt4.Qt import *
+from PyQt4.Qwt5 import *
+from PyQt4.Qwt5.qplt import *
+
 import snippet
+
+class TimeseriesWindow(QtGui.QWidget):
+    def __init__(self, player, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        self.ui = Ui_Timeseries()
+        self.ui.setupUi(self)
+        self.img = None
+
+    def show_img(self,npimg):
+        self.img = cv2.cvtColor(npimg,cv2.COLOR_BGR2BGRA)
+        h, w ,c = self.img.shape
+        
+        # Qt expects 32bit BGRA data for color images:    
+        self.qimg = QtGui.QImage(self.img.data, w, h, QtGui.QImage.Format_RGB32)
+        self.qimg.ndarray = self.img
+        
+        scene = QtGui.QGraphicsScene()    
+        scene.addPixmap(QtGui.QPixmap(self.qimg))
+        self.ui.graphicsView.setScene(scene)
 
 class TimeSeries:
     """A time series is a time-ordered vector of (time, value)-vectors. Time is
@@ -13,10 +41,55 @@ class TimeSeries:
         
         self.filename = filename
         self.data = np.loadtxt(filename)
+        self.val_min = np.amin(self.data[:,1])
+        self.val_max = np.amax(self.data[:,1])
         self.label = label
         self.equal_tupel_length = self.calc_tupel_length()
         self.approx = approx
+        self.act_pos = 0
         
+        #self.win_w = 300
+        #self.win_h = 200
+        #self.win = None
+        #self.img = np.zeros((self.win_h,self.win_w,3),'uint8')
+        
+        self.p = Plot(
+            Curve(self.data[:,0], self.data[:,1], Pen(Magenta, 2), self.label))
+            #Curve([self.act_pos, self.act_pos], [self.val_min, self.val_max], Pen(Red), "pos"))
+        #self.p.setAxisScale(2,0,200)
+        self.m = QwtPlotMarker()
+        self.m.setLineStyle(2)
+        self.m.attach(self.p)
+  
+    def show(self, time):
+        self.act_pos = time
+        #if self.p.AxisInterval(2)
+        #self.p.set
+        self.m.setXValue(self.act_pos)
+        self.p.replot()
+        """
+        if self.win is None:
+            self.win = TimeseriesWindow(self)
+            self.win.setWindowTitle(self.label)
+            self.win
+            self.win.show()
+        
+        val = self.get_elem(time)
+        p_val = int((val-self.val_min) / (self.val_max-self.val_min) * self.win_h)
+        
+        # shift left
+        self.img[:,0:self.win_w-1,:] = self.img[:,1:self.win_w,:]
+        self.img[:,self.win_w-1,:] = 0
+        # draw value
+        self.img[p_val,self.win_w-1,:] = 255
+       
+        #cv2.imshow('sd',self.img)
+        self.win.show_img(self.img)
+        
+        pass
+        #self.
+        """
+    
     def get_elem(self, request_time):
         """returns the value of the time series at a specific time point"""
         if self.approx == "none":
@@ -64,3 +137,4 @@ class TimeSeries:
 # TODO delete (helper function for testing get_snippets)
 def greater_zero(a):
     return a>0
+    

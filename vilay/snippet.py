@@ -50,3 +50,31 @@ def complement(seq_arr, omega_seq):
     # TODO
     pass
 
+
+def read_snippets(filename):
+    file = open(filename)
+    snippets = []
+    while True:
+        line = file.readline()
+        if line == '':
+            break
+        line = line[0:len(line)-1]
+        
+        vec = line.split("\t")
+        
+        if len(line) <=1:
+            pass
+        elif len(vec) == 2:
+            try:
+                snippets.append(sequence.Sequence(float(vec[0]),float(vec[1])))
+            except Exception, e:
+                warnings.warn('read_seq: Could not read input. Begin and duraration have to be float. FORMAT: begin (in sec) TAB duration (in sec) (TAB label) ')
+        elif len(vec) == 3:
+            try:
+                snippets.append(sequence.Sequence(float(vec[0]),float(vec[1]),vec[2]))
+            except Exception, e:
+                warnings.warn('read_seq: Could not read input. Begin and duraration have to be float. FORMAT: begin (in sec) TAB duration (in sec) (TAB label) ')
+        else:
+           warnings.warn('read_seq: Could not read input. FORMAT: begin (in sec) TAB duration (in sec) (TAB label) ')
+        
+    return snippets

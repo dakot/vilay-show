@@ -23,18 +23,29 @@ parser_args = dict(formatter_class=argparse.RawDescriptionHelpFormatter)
 
 def setup_parser(parser):
     # ADD ME
-    parser.add_argument('mediafile', help="SPEC name/identifier")
+    parser.add_argument('mediafile', help="path of media file")
+    media_group = parser.add_argument_group('media')
+    media_group.add_argument('--movie-opacity', type=float_zero_one, help="float value of opacity of movie")
+    media_group.add_argument('--movie-gray', type=float_zero_one, help="[0,1] if movie should be gray")
     
-    parser.add_argument('--play-snippet', nargs=2, action='append', type=float, help="start, duration")
+    snippet_group = parser.add_argument_group('snippets')
+    snippet_group.add_argument('--play-snippet', nargs=2, action='append', type=float, help="plays snippet with 'start' 'duration' (in seconds)")
     
     gaze_group = parser.add_argument_group('gazes')
-    gaze_group.add_argument('--gazes', nargs='+', help="SPEC name/identifier")
+    gaze_group.add_argument('--gazes', nargs='+', help="filenames of gaze files")
     gaze_group.add_argument('--fov', '--stimulus-field-of-view', dest='stim_fov', nargs=4, type=int,
-        help="""width, height, x_offset, y_offset""")
-    
+        help="specifies where the movie was set in gaze data: 'width' 'height' 'x_offset' 'y_offset'")
     gaze_group.add_argument('--show-gazes-each', type=float_zero_one, help="float value of opacity of each gaze overlay")
-    gaze_group.add_argument('--show-gazes-clustered', type=float_zero_one, help="float value of opacity of clustered gaze overlay")
+    gaze_group.add_argument('--show-gazes-clustered', type=float_zero_one, help="float value of opacity of clustered gaze overlay", default=1)
+    gaze_group.add_argument('--show-aperture', type=bool, help="set 'true' to show aperture")
 
+    timeseries_group = parser.add_argument_group('timeseries')
+    timeseries_group.add_argument('--ts','--timeseries', dest='timeseries', nargs='+', help="filenames of timeseries files, format: timestamp, value (float)...")
+    
+    annotation_group = parser.add_argument_group('annotation')
+    annotation_group.add_argument('--ann','--annotation', dest='annotation', nargs='+', help="filenames of annotation files, format: timestamp, data (string)...")
+    annotation_group.add_argument('--ann-idx','--annotation_timestamp_idx', dest='annotation_timestamp_idx', type=int, help="index of timestamp information in annotation files", default=0)
+    
 def float_zero_one(x):
     try:
         x = float(x)
@@ -45,7 +56,7 @@ def float_zero_one(x):
     return x
     
 def run(args):
-    print args
+    #print args
     from vilay.stimulus import Stimulus
     from vilay.player import Player
     from vilay.gazes import Gazes
@@ -56,18 +67,37 @@ def run(args):
     
     player = Player(stim)
     
+    if not args.movie_gray is None:
+        player.set_movie_gray(args.movie_gray)
+    if not args.movie_opacity is None:
+        player.set_movie_opacity(args.movie_opacity)
+        
+    
     if not args.gazes is None:
         lgr.debug("gaze display enabled")
         player.gazes = Gazes(args.gazes)
-    
+        
         if not args.stim_fov is None:
             player.gazes.calibration(*args.stim_fov)
+        else:
+            print "WARNING: gazes maybe not calibrated"
         
         if not args.show_gazes_each is None:
             player.set_show_gaze_each(args.show_gazes_each)
         
         if not args.show_gazes_clustered is None:
             player.set_show_gaze_clustered(args.show_gazes_clustered)
+
+        if not args.show_aperture is None:
+            player.set_show_aperture(args.show_aperture)
+    
+    if not args.timeseries is None:
+        for ts in args.timeseries:
+            player.add_timeseries(ts)
+    
+    if not args.annotation is None:
+        for an in args.annotation:
+            player.add_annotation(an, 'annotation', args.annotation_timestamp_idx)
     
     if not args.play_snippet is None:
         lgr.debug("limit playback to snippets")
@@ -76,5 +106,5 @@ def run(args):
         player.load_snippet(1) 
         
     player.play()
-    
+    print ""
     sys.exit(player.app.exec_())

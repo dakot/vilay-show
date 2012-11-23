@@ -15,6 +15,24 @@ class StimulusWindow(QtGui.QWidget):
         self.img = self.ui.stim_img
         self.npimg = None
         
+        self.inp_buffer = ""
+    
+    def keyPressEvent(self, e):
+        self.inp_buffer += e.text()
+        
+        if e.key() == QtCore.Qt.Key_Enter or e.key() == QtCore.Qt.Key_Return:
+            try:
+                snip_id = int(self.inp_buffer)
+                self.player.play_snippet(snip_id)
+            except:
+                pass
+            self.inp_buffer = ''
+                
+            
+        if e.key() == QtCore.Qt.Key_Space:
+            self.player.pause()
+            self.inp_buffer = ""
+    
     def show_img(self,npimg):
         self.npimg = npimg
         

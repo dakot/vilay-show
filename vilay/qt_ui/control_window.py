@@ -12,7 +12,7 @@ class ControlWindow(QtGui.QWidget):
         self.ui.setupUi(self)
         
         self.player = player
-        self.snipped_pixmap = None
+        self.snipped_img = None
         
         self.update_block_section()
         
@@ -30,6 +30,10 @@ class ControlWindow(QtGui.QWidget):
         self.ui.slider.sliderReleased.connect(self.slider_released)
         
         self.ui.speed.valueChanged.connect(self.speed_changed)
+    
+    def keyPressEvent(self, e):
+        if e.key() == QtCore.Qt.Key_Space:
+            self.player.pause()
     
     def update_texts(self, player):
         self.ui.time.setText('%(start)s / %(end)s' %{'start':utils.sec2time(player.stimulus.act_pos), 'end': player.stimulus.end_pos_str})
@@ -52,25 +56,25 @@ class ControlWindow(QtGui.QWidget):
     def update_snipped_pixmap(self):
         h = int(self.ui.snip_overview.height())
         w = int(self.ui.snip_overview.width())
+        off = 10
         
-        img = np.zeros((h,w,3),'uint8')
-        img[:,:,0:3] = 241
+        self.img = np.zeros((h,w,3),'uint8')+ 241
         
         for i in range(len(self.player.snippets)-1):
-            begin = int(self.player.snippets[i+1].begin / self.player.stimulus.length * w)
+            begin = int(self.player.snippets[i+1].begin / self.player.stimulus.length * (w-2*off))+off
             end = begin + int(self.player.snippets[i+1].duration / self.player.stimulus.length * w)+1
-            img[:,begin:end,0] = 255
-            img[:,begin:end,1] = 0
-            img[:,begin:end,2] = 0
+            self.img[:,begin:end,0] = 255
+            self.img[:,begin:end,1] = 0
+            self.img[:,begin:end,2] = 0
         
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2BGRA)
+        self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2BGRA)
         
         # Qt expects 32bit BGRA data for color images:    
-        qimg = QtGui.QImage(img.data, w, h, QtGui.QImage.Format_RGB32)
-        qimg.ndarray = img
+        qimg = QtGui.QImage(self.img.data, w, h, QtGui.QImage.Format_RGB32)
+        qimg.ndarray = self.img
         
-        self.snipped_pixmap = QtGui.QPixmap(qimg)
-        self.ui.snip_overview.setPixmap(self.snipped_pixmap)
+        snipped_pixmap = QtGui.QPixmap(qimg)
+        self.ui.snip_overview.setPixmap(snipped_pixmap)
     
     def go_back(self, val = 4):
         time = self.player.stimulus.act_pos - val
